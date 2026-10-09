@@ -18,8 +18,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             alert("Unsupported macOS version",
                   "These window-server functions are missing on this macOS: \(SkyLight.missingSymbols.joined(separator: ", ")). SpaceGrab can't move windows.")
         }
-        if !Prefs.onboarded { onboard() }
-        if !AXIsProcessTrusted() {
+        let headless = ProcessInfo.processInfo.environment["SPACEGRAB_NO_ONBOARD"] != nil   // used by automated tests
+        if !Prefs.onboarded && !headless { onboard() }
+        if !AXIsProcessTrusted() && !headless {
             let opts = [kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true] as CFDictionary
             _ = AXIsProcessTrustedWithOptions(opts)
         }

@@ -100,7 +100,7 @@ final class Updater {
         while kill -0 \(getpid()) 2>/dev/null; do sleep 0.2; done
         rm -rf '\(target).old'
         mv '\(target)' '\(target).old' && mv '\(staged.path)' '\(target)' && rm -rf '\(target).old' || mv '\(target).old' '\(target)'
-        open '\(target)'
+        open \(ProcessInfo.processInfo.environment["SPACEGRAB_NO_ONBOARD"] != nil ? "--env SPACEGRAB_NO_ONBOARD=1" : "") '\(target)'
         """
         let p = Process()
         p.executableURL = URL(fileURLWithPath: "/bin/bash")
