@@ -12,5 +12,6 @@ git add -A
 git commit -m "Release v$V" || true
 git tag "v$V"
 GH_USER=cowens321-bit
+export GH_TOKEN=$(gh auth token -u $GH_USER)   # personal account, regardless of gh's active account
 git -c credential.helper= -c credential.helper='!gh auth git-credential' push origin HEAD "v$V"
-GH_TOKEN=$(gh auth token -u $GH_USER) gh release create "v$V" "$DMG" --repo $GH_USER/SpaceGrab --title "SpaceGrab $V" --notes "$NOTES"
+gh release create "v$V" "$DMG" --repo $GH_USER/SpaceGrab --title "SpaceGrab $V" --notes "$NOTES"
